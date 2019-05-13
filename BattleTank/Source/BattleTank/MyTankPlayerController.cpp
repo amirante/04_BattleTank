@@ -6,5 +6,25 @@
 
 ATank *AMyTankPlayerController::GetControlledTank() const
 {
-	return Cast<ATank>(GetPawn());
+	ATank *OurTank = nullptr;
+	OurTank = Cast<ATank>(GetPawn());
+
+	if (OurTank != nullptr) {
+		UE_LOG(LogTemp, Warning, TEXT("GetControlledTank found a tank: %s"), *OurTank->GetName());
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("GetControlledTank didn't find a tank!"));
+	}
+
+	return OurTank;
+}
+
+void AMyTankPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+
+	auto ControlledTank = GetControlledTank();
+
+	UE_LOG(LogTemp, Warning, TEXT("PlayerController Begin Play"));
+
 }

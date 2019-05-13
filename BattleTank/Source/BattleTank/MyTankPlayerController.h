@@ -4,7 +4,9 @@
 
 #include "Tank.h"
 #include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
 #include "GameFramework/PlayerController.h"
+
 #include "MyTankPlayerController.generated.h"
 
 /**
@@ -17,5 +19,6 @@ class BATTLETANK_API AMyTankPlayerController : public APlayerController
 
 public:
 	ATank *GetControlledTank() const;
+	void BeginPlay() override;
 	
 };
