@@ -4,6 +4,13 @@
 #include "MyTankPlayerController.h"
 #include "GameFramework/PlayerController.h"
 
+void AMyTankPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+
+	MyControlledTank = GetControlledTank();
+}
+
 ATank *AMyTankPlayerController::GetControlledTank() const
 {
 	ATank *OurTank = nullptr;
@@ -19,12 +26,3 @@ ATank *AMyTankPlayerController::GetControlledTank() const
 	return OurTank;
 }
 
-void AMyTankPlayerController::BeginPlay()
-{
-	Super::BeginPlay();
-
-	auto ControlledTank = GetControlledTank();
-
-	UE_LOG(LogTemp, Warning, TEXT("PlayerController Begin Play"));
-
-}

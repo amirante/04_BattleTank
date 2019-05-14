@@ -17,8 +17,10 @@ class BATTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 
-public:
-	ATank *GetControlledTank() const;
+private:
 	void BeginPlay() override;
-
+	ATank *GetPlayerTank() const;
+	ATank *GetControlledTank() const;
+	ATank *Player0Tank = nullptr;	// TODO Change this to support multiplayer
+	ATank *MyControlledTank = nullptr;
 };

@@ -1,7 +1,17 @@
 // Copyright 2019, ALSN, LLC. All rights reserved
 
-
 #include "TankAIController.h"
+#include "Engine/World.h"
+#include "MyTankPlayerController.h"
+
+void ATankAIController::BeginPlay()
+{
+	Super::BeginPlay();
+
+	MyControlledTank = GetControlledTank();
+
+	Player0Tank = GetPlayerTank();
+}
 
 ATank *ATankAIController::GetControlledTank() const
 {
@@ -18,12 +28,19 @@ ATank *ATankAIController::GetControlledTank() const
 	return OurTank;
 }
 
-void ATankAIController::BeginPlay()
+
+// Find the player's tank: assumes only single player game for now
+// TODO: Change to support multiplayer
+ATank * ATankAIController::GetPlayerTank() const
 {
-	Super::BeginPlay();
-
-	auto ControlledTank = GetControlledTank();
-
-	UE_LOG(LogTemp, Warning, TEXT("TankAIController Begin Play"));
-
+	ATank *OtherPlayerTank = nullptr;
+	OtherPlayerTank = Cast<AMyTankPlayerController>(GetWorld()->GetFirstPlayerController())->GetControlledTank();
+	
+	if (!OtherPlayerTank) {
+		UE_LOG(LogTemp, Warning, TEXT("TankAIController: Couldn't find Player tank!"));
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("TankAIController found Player tank: %s"), *OtherPlayerTank->GetName());
+	}
+	return OtherPlayerTank;
 }
