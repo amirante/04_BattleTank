@@ -10,7 +10,7 @@ ATank *AMyTankPlayerController::GetControlledTank() const
 	OurTank = Cast<ATank>(GetPawn());
 
 	if (OurTank != nullptr) {
-		UE_LOG(LogTemp, Warning, TEXT("GetControlledTank found a tank: %s"), *OurTank->GetName());
+		UE_LOG(LogTemp, Warning, TEXT("GetControlledTank found a player controlled tank: %s"), *OurTank->GetName());
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("GetControlledTank didn't find a tank!"));
