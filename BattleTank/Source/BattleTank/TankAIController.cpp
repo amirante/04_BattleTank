@@ -2,7 +2,7 @@
 
 #include "TankAIController.h"
 #include "Engine/World.h"
-#include "MyTankPlayerController.h"
+#include "TankPlayerController.h"
 
 void ATankAIController::BeginPlay()
 {
@@ -34,7 +34,7 @@ ATank *ATankAIController::GetControlledTank() const
 ATank * ATankAIController::GetPlayerTank() const
 {
 	ATank *OtherPlayerTank = nullptr;
-	OtherPlayerTank = Cast<AMyTankPlayerController>(GetWorld()->GetFirstPlayerController())->GetControlledTank();
+	OtherPlayerTank = Cast<ATankPlayerController>(GetWorld()->GetFirstPlayerController())->GetControlledTank();
 	
 	if (!OtherPlayerTank) {
 		UE_LOG(LogTemp, Warning, TEXT("TankAIController: Couldn't find Player tank!"));

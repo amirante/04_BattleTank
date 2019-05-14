@@ -1,17 +1,17 @@
 // Copyright 2019, ALSN, LLC. All rights reserved
 
 
-#include "MyTankPlayerController.h"
+#include "TankPlayerController.h"
 #include "GameFramework/PlayerController.h"
 
-void AMyTankPlayerController::BeginPlay()
+void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
 	MyControlledTank = GetControlledTank();
 }
 
-ATank *AMyTankPlayerController::GetControlledTank() const
+ATank *ATankPlayerController::GetControlledTank() const
 {
 	ATank *OurTank = nullptr;
 	OurTank = Cast<ATank>(GetPawn());

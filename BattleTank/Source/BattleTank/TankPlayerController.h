@@ -7,13 +7,13 @@
 #include "GameFramework/Actor.h"
 #include "GameFramework/PlayerController.h"
 
-#include "MyTankPlayerController.generated.h"
+#include "TankPlayerController.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class BATTLETANK_API AMyTankPlayerController : public APlayerController
+class BATTLETANK_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
