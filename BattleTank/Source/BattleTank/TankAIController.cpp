@@ -2,6 +2,8 @@
 
 #include "TankAIController.h"
 #include "Engine/World.h"
+#include "GameFramework/PlayerController.h"
+#include "Runtime/AIModule/Classes/AIController.h"
 #include "TankPlayerController.h"
 
 void ATankAIController::BeginPlay()
@@ -10,7 +12,7 @@ void ATankAIController::BeginPlay()
 
 	MyControlledTank = GetControlledTank();
 
-	Player0Tank = GetPlayerTank();
+	Player0Tank = GetPlayerTank();	// TODO Change this for multiplayer
 }
 
 ATank *ATankAIController::GetControlledTank() const
@@ -27,6 +29,22 @@ ATank *ATankAIController::GetControlledTank() const
 
 	return OurTank;
 }
+
+
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	
+	if (MyControlledTank) {
+		// TODO Move towards the player
+
+		//AimTowardsTank();
+		MyControlledTank->AimAt(Player0Tank->GetActorLocation());
+
+		// Fire if ready
+	}
+}
+
 
 
 // Find the player's tank: assumes only single player game for now

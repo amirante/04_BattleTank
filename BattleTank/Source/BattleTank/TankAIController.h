@@ -19,8 +19,11 @@ class BATTLETANK_API ATankAIController : public AAIController
 
 private:
 	void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+
 	ATank *GetPlayerTank() const;
 	ATank *GetControlledTank() const;
 	ATank *Player0Tank = nullptr;	// TODO Change this to support multiplayer
 	ATank *MyControlledTank = nullptr;
+	float LineTraceRange = 1000000.0f;
 };
