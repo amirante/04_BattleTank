@@ -1,6 +1,7 @@
 // Copyright 2019, ALSN, LLC. All rights reserved
 
 #include "GameFramework/Actor.h"
+#include "Components/StaticMeshComponent.h"
 #include "TankAimingComponent.h"
 
 // Sets default values for this component's properties
@@ -15,7 +16,14 @@ UTankAimingComponent::UTankAimingComponent()
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	auto TankName = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *TankName, *HitLocation.ToString());
+	auto BarrelLocation = Barrel->GetComponentLocation().ToCompactString();
+
+	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s"), *TankName, *HitLocation.ToString(), *BarrelLocation);
+}
+
+void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent * BarrelToSet)
+{
+	Barrel = BarrelToSet;
 }
 
 

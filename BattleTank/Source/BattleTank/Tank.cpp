@@ -1,6 +1,5 @@
 // Copyright 2019, ALSN, LLC. All rights reserved
 
-
 #include "Tank.h"
 
 ATank::ATank()
@@ -13,6 +12,11 @@ ATank::ATank()
 void ATank::AimAt(FVector HitLocation)
 {
 	TankAimingComponent->AimAt(HitLocation);	// delegate aiming stuff to subobject
+}
+
+void ATank::SetBarrelReference(UStaticMeshComponent *BarrelToSet)
+{
+	TankAimingComponent->SetBarrelReference(BarrelToSet);
 }
 
 // Called when the game starts or when spawned
