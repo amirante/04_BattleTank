@@ -11,7 +11,7 @@ ATank::ATank()
 
 void ATank::AimAt(FVector HitLocation)
 {
-	TankAimingComponent->AimAt(HitLocation);	// delegate aiming stuff to subobject
+	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);	// delegate aiming stuff to subobject
 }
 
 void ATank::SetBarrelReference(UStaticMeshComponent *BarrelToSet)
