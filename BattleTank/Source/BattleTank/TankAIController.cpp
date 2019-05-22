@@ -1,6 +1,7 @@
 // Copyright 2019, ALSN, LLC. All rights reserved
 
 #include "TankAIController.h"
+#include "Tank.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 #include "Runtime/AIModule/Classes/AIController.h"

@@ -1,5 +1,6 @@
 // Copyright 2019, ALSN, LLC. All rights reserved
 
+#include "TankAimingComponent.h"
 #include "Tank.h"
 
 ATank::ATank()
