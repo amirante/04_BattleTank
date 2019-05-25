@@ -1,7 +1,9 @@
 // Copyright 2019, ALSN, LLC. All rights reserved
 
-#include "TankAimingComponent.h"
+
 #include "Tank.h"
+#include "GameFramework/Actor.h"
+#include "TankAimingComponent.h"
 
 ATank::ATank()
 {
@@ -24,6 +26,24 @@ void ATank::SetBarrelReference(UTankBarrel *BarrelToSet)
 void ATank::SetTurretReference(UTankTurret *TurretToSet)
 {
 	TankAimingComponent->SetTurretReference(TurretToSet);
+}
+
+void ATank::Fire()
+{
+	UE_LOG(LogTemp, Warning, TEXT("In ATank::Fire()"));
+
+	auto World = GetWorld();
+	if (!World) { return; }
+
+	auto Time = World->GetTimeSeconds();
+
+	auto Actor = GetOwner();
+
+	if (!Actor) { return; }
+
+	auto TankName = GetOwner()->GetName();
+
+	UE_LOG(LogTemp, Warning, TEXT("Fire called on tank: %s"), *TankName);
 }
 
 // Called when the game starts or when spawned

@@ -1,18 +1,19 @@
 // Copyright 2019, ALSN, LLC. All rights reserved
 
+#include "TankAimingComponent.h"
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
 #include "Classes/Kismet/GameplayStatics.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
-#include "TankAimingComponent.h"
+
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;	// TODO Should this really tick?
+	PrimaryComponentTick.bCanEverTick = false;
 }
 
 
@@ -31,9 +32,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		auto TankName = GetOwner()->GetName();
 		UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *TankName, *AimDirection.ToString());
 		MoveBarrelTowards(AimDirection);
-
-		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f AimAt: Aim Solution found!"), Time);
 	}
 	else {	// no solution found
 		auto Time = GetWorld()->GetTimeSeconds();
@@ -52,7 +50,22 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 	
 	Barrel->Elevate(DeltaRotator.Pitch);
-	Turret->Rotate(DeltaRotator.Yaw);
+
+	//Turret->Rotate(DeltaRotator.Yaw);	// Original code
+	if (FMath::Abs(DeltaRotator.Yaw) < 180)
+	{
+		Turret->Rotate(DeltaRotator.Yaw);
+	}
+	else // Avoid going the long-way round
+	{
+		Turret->Rotate(-DeltaRotator.Yaw);
+	}
+
+	// NEW CODE - Turret Rotation - calculate Yaw ourselves instead of using Yaw from AimRotator
+	/* FVector BarrelLocation = Barrel->GetComponentLocation();
+	FRotator YawRotator = (AimDirection - BarrelLocation).Rotation();
+	FRotator DeltaRotator = YawRotator - BarrelRotator;
+	Turret->Rotate(FMath::Abs(DeltaRotator.Yaw) < 180 ? DeltaRotator.Yaw : -DeltaRotator.Yaw); */
 }
 
 

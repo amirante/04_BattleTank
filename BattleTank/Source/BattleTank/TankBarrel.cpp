@@ -1,7 +1,8 @@
 // Copyright 2019, ALSN, LLC. All rights reserved
 
-#include "GameFramework/Actor.h"
 #include "TankBarrel.h"
+#include "GameFramework/Actor.h"
+
 
 void UTankBarrel::Elevate(float RelativeSpeed)
 {
