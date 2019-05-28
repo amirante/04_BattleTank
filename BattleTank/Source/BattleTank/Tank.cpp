@@ -41,18 +41,16 @@ void ATank::Fire()
 	auto World = GetWorld();
 	if (!World) { return; }
 
-	auto Time = World->GetTimeSeconds();
-
-	UE_LOG(LogTemp, Warning, TEXT("%f: Tank fires"), Time);
-
 	if (!Barrel) { return; }
 
 	// Spawn a projectile at the socket location on the barrel
 	const UStaticMeshSocket *BarrelSocket = Barrel->GetSocketByName("Projectile");
 
-	World->SpawnActor<AProjectile>(ProjectileBlueprint,
+	auto Projectile = World->SpawnActor<AProjectile>(ProjectileBlueprint,
 		Barrel->GetSocketLocation(FName("Projectile")),
 		Barrel->GetSocketRotation(FName("Projectile")));
+
+	Projectile->LaunchProjectile(LaunchSpeed);
 }
 
 // Called when the game starts or when spawned
