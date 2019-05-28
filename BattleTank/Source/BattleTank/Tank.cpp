@@ -2,7 +2,12 @@
 
 
 #include "Tank.h"
+#include "TankBarrel.h"
 #include "GameFramework/Actor.h"
+#include "Classes/Engine/World.h"
+#include "Components/StaticMeshComponent.h"
+#include "Classes/Engine/StaticMeshSocket.h"
+#include "Projectile.h"
 #include "TankAimingComponent.h"
 
 ATank::ATank()
@@ -21,6 +26,7 @@ void ATank::AimAt(FVector HitLocation)
 void ATank::SetBarrelReference(UTankBarrel *BarrelToSet)
 {
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
+	Barrel = BarrelToSet;
 }
 
 void ATank::SetTurretReference(UTankTurret *TurretToSet)
@@ -30,20 +36,23 @@ void ATank::SetTurretReference(UTankTurret *TurretToSet)
 
 void ATank::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("In ATank::Fire()"));
+	//UE_LOG(LogTemp, Warning, TEXT("In ATank::Fire()"));
 
 	auto World = GetWorld();
 	if (!World) { return; }
 
 	auto Time = World->GetTimeSeconds();
 
-	auto Actor = GetOwner();
+	UE_LOG(LogTemp, Warning, TEXT("%f: Tank fires"), Time);
 
-	if (!Actor) { return; }
+	if (!Barrel) { return; }
 
-	auto TankName = GetOwner()->GetName();
+	// Spawn a projectile at the socket location on the barrel
+	const UStaticMeshSocket *BarrelSocket = Barrel->GetSocketByName("Projectile");
 
-	UE_LOG(LogTemp, Warning, TEXT("Fire called on tank: %s"), *TankName);
+	World->SpawnActor<AProjectile>(ProjectileBlueprint,
+		Barrel->GetSocketLocation(FName("Projectile")),
+		Barrel->GetSocketRotation(FName("Projectile")));
 }
 
 // Called when the game starts or when spawned
