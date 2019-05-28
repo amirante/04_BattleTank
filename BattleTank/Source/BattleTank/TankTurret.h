@@ -18,6 +18,6 @@ public:
 	void Rotate(float RelativeSpeed);	// -1 is max counterclockwise? speed and +1 is max clockwise? speed
 
 private:
-	UPROPERTY(EditAnywhere, Category = "Setup")
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float MaxDegreesPerSecond = 25;	// sensible default
 };

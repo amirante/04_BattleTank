@@ -63,8 +63,6 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &OutHitLocation) cons
 
 bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector &HitLocation) const
 {
-	//FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());
-	//FCollisionResponseParams ResponseParam;
 	FHitResult HitResult;
 	auto StartLocation = PlayerCameraManager->GetCameraLocation();
 	auto EndLocation = StartLocation + (LookDirection * LineTraceRange);
