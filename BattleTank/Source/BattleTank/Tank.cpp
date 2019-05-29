@@ -34,9 +34,8 @@ void ATank::SetTurretReference(UTankTurret *TurretToSet)
 	TankAimingComponent->SetTurretReference(TurretToSet);
 }
 
-void ATank::Fire()
+void ATank::Fire(bool IsAITank)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("In ATank::Fire()"));
 	bool isReloaded = FPlatformTime::Seconds() - LastFireTime > ReloadTimeInSeconds;
 
 	auto World = GetWorld();
@@ -46,11 +45,15 @@ void ATank::Fire()
 		// Spawn a projectile at the socket location on the barrel
 		const UStaticMeshSocket *BarrelSocket = Barrel->GetSocketByName("Projectile");
 
-		auto Projectile = World->SpawnActor<AProjectile>(ProjectileBlueprint,
-			Barrel->GetSocketLocation(FName("Projectile")),
-			Barrel->GetSocketRotation(FName("Projectile")));
+		// remove this if statement for final build. This is just for debugging to turn off AI tanks shooting
+		if ( !IsAITank || CanAITanksFire ) {
+			auto Projectile = World->SpawnActor<AProjectile>(ProjectileBlueprint,
+				Barrel->GetSocketLocation(FName("Projectile")),
+				Barrel->GetSocketRotation(FName("Projectile")));
 
-		Projectile->LaunchProjectile(LaunchSpeed);
+				Projectile->LaunchProjectile(LaunchSpeed);
+		}
+
 		LastFireTime = FPlatformTime::Seconds();	// or use GetWorld()->GetTimeSeconds();
 	}
 }

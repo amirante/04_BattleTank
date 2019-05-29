@@ -26,7 +26,7 @@ public:
 	void SetTurretReference(UTankTurret *TurretToSet);
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void Fire();
+	void Fire(bool IsAITank=false);
 
 protected:
 	// Called when the game starts or when spawned
@@ -42,6 +42,10 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTimeInSeconds = 3.0f;
+
+	// Temporary flag to turn off AI Tank firing for debugging purposes
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	bool CanAITanksFire = false;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
