@@ -27,5 +27,7 @@ private:
 	ATank *GetControlledTank() const;
 	ATank *Player0Tank = nullptr;	// TODO Change this to support multiplayer
 	ATank *MyControlledTank = nullptr;
-	float LineTraceRange = 1000000.0f;
+
+	// How close can the AI tank get to the player
+	float AcceptanceRadius = 3000.0f;	// assume it is in centimeters
 };
