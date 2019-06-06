@@ -4,7 +4,7 @@
 #include "TankMovementComponent.h"
 #include "TankTrack.h"
 
-void UTankMovementComponent::InitializeComponent(UTankTrack *LeftTrackToSet, UTankTrack *RightTrackToSet) 
+void UTankMovementComponent::InitialiseComponent(UTankTrack *LeftTrackToSet, UTankTrack *RightTrackToSet) 
 {
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;
@@ -18,6 +18,7 @@ void UTankMovementComponent::IntendMoveForward(float Throw)
 	RightTrack->SetThrottle(Throw);
 
 	// TODO prevent double-speed due to dual control use
+	// Solution: remove Left/Right Track Throttle in the Input graph of the Tank BP
 }
 
 void UTankMovementComponent::IntendTurnRight(float Throw)
@@ -28,6 +29,7 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 	RightTrack->SetThrottle(-Throw);
 
 	// TODO prevent double-speed due to dual control use
+	// Solution: remove Left/Right Track Throttle in the Input graph of the Tank BP
 }
 
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
@@ -42,6 +44,4 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	// uses sine function (Cross Product) to rotate towards us
 	auto RightThrow = FVector::CrossProduct(TankForward, AIForwardIntention);
 	IntendTurnRight(RightThrow.Z);
-
-	//UE_LOG(LogTemp, Warning, TEXT("%s: Move velocity: %s"), *ParentTank->GetName(), *AIForwardIntention.ToString());
 }
