@@ -54,4 +54,6 @@ private:
 	// TODO Remove Barrel reference
 	UTankBarrel *Barrel = nullptr;	// Local barrel reference for spawning projecile
 	double LastFireTime = 0;
+
+	void BeginPlay() override;
 };
