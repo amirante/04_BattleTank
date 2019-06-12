@@ -18,6 +18,9 @@ ATank::ATank()
 	UE_LOG(LogTemp, Warning, TEXT("TankDonkey: In ATank::ATank [%s]"), *TankName);
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
+
+	//TODO: Not sure if this needs to be here but it wasn't getting constructed without it
+	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 }
 
 void ATank::BeginPlay()
