@@ -20,7 +20,7 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	//TODO: Not sure if this needs to be here but it wasn't getting constructed without it
-	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+	//TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 }
 
 void ATank::BeginPlay()
@@ -28,6 +28,8 @@ void ATank::BeginPlay()
 	auto TankName = GetName();
 
 	Super::BeginPlay();
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
+
 	UE_LOG(LogTemp, Warning, TEXT("TankDonkey:In ATank::BeginPlay [%s]"), *TankName);
 }
 

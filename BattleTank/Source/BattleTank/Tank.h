@@ -28,6 +28,7 @@ protected:
 	UTankAimingComponent *TankAimingComponent = nullptr;
 	
 private:
+	// TODO remove once firing is moved to Aimingcomponent
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 4000;
 
