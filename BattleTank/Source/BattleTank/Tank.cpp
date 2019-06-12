@@ -8,7 +8,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Classes/Engine/StaticMeshSocket.h"
 #include "Projectile.h"
-#include "TankAimingComponent.h"
+//#include "TankAimingComponent.h"
 
 
 ATank::ATank()
@@ -28,17 +28,17 @@ void ATank::BeginPlay()
 	auto TankName = GetName();
 
 	Super::BeginPlay();
-	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
+	//TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 
 	UE_LOG(LogTemp, Warning, TEXT("TankDonkey:In ATank::BeginPlay [%s]"), *TankName);
 }
 
-void ATank::AimAt(FVector HitLocation)
-{
-	if (!ensure(TankAimingComponent)) { return; }
-
-	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);	// delegate aiming stuff to subobject
-}
+//void ATank::AimAt(FVector HitLocation)
+//{
+//	if (!ensure(TankAimingComponent)) { return; }
+//
+//	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);	// delegate aiming stuff to subobject
+//}
 
 
 void ATank::Fire(bool IsAITank)

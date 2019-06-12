@@ -23,10 +23,10 @@ private:
 	void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
-	ATank *GetPlayerTank() const;
-	ATank *GetControlledTank() const;
-	ATank *Player0Tank = nullptr;	// TODO Change this to support multiplayer
-	ATank *MyControlledTank = nullptr;
+	//ATank *GetPlayerTank() const;
+	//ATank *GetControlledTank() const;
+	//ATank *Player0Tank = nullptr;	// TODO Change this to support multiplayer
+	//ATank *MyControlledTank = nullptr;
 
 	// How close can the AI tank get to the player
 	float AcceptanceRadius = 3000.0f;	// assume it is in centimeters

@@ -2,7 +2,6 @@
 
 #include "TankPlayerController.h"
 #include "TankAimingComponent.h"
-#include "Tank.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/Classes/Engine/World.h"
 
@@ -10,9 +9,8 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	MyControlledTank = GetControlledTank();
-	auto AimingComponent = MyControlledTank->FindComponentByClass<UTankAimingComponent>();
-	
+	//MyControlledTank = GetPawn();
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) {	return; }
 	
 	FoundAimingComponent(AimingComponent);
@@ -30,9 +28,8 @@ void ATankPlayerController::Tick(float DeltaTime)
 // Start the tank moving the barrel so that a shot would hit where the crosshair intersects the world
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!ensure(MyControlledTank)) { 
-		return; 
-	}
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
 
 	FVector HitLocation; // out parameter
 
@@ -40,7 +37,8 @@ void ATankPlayerController::AimTowardsCrosshair()
 	// If it hits landscape, tell controlled tank to aim at this point
 	if (GetSightRayHitLocation(HitLocation)) {
 		//UE_LOG(LogTemp, Warning, TEXT("Hit location: %s"), *HitLocation.ToString());
-		MyControlledTank->AimAt(HitLocation);
+		//MyControlledTank->AimAt(HitLocation);
+		AimingComponent->AimAt(HitLocation);
 	}
 	else {
 		// miss
@@ -95,18 +93,18 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector &
 	return DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, WorldLocationDummy, LookDirection);
 }
 
-ATank *ATankPlayerController::GetControlledTank() const
-{
-	ATank *OurTank = nullptr;
-	OurTank = Cast<ATank>(GetPawn());
-
-	if (OurTank != nullptr) {
-		UE_LOG(LogTemp, Warning, TEXT("GetControlledTank found a player controlled tank: %s"), *OurTank->GetName());
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("GetControlledTank didn't find a tank!"));
-	}
-
-	return OurTank;
-}
+//ATank *ATankPlayerController::GetControlledTank() const
+//{
+//	APawn *OurTank = nullptr;
+//	OurTank = GetPawn();
+//
+//	if (OurTank != nullptr) {
+//		UE_LOG(LogTemp, Warning, TEXT("GetControlledTank found a player controlled tank: %s"), *OurTank->GetName());
+//	}
+//	else {
+//		UE_LOG(LogTemp, Warning, TEXT("GetControlledTank didn't find a tank!"));
+//	}
+//
+//	return OurTank;
+//}
 

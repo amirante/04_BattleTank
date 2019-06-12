@@ -5,10 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/PlayerController.h"
-
 #include "TankPlayerController.generated.h"
 
-class ATank;
+//class ATank;
 class UTankAimingComponent;
 
 /**
@@ -20,8 +19,8 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank *GetControlledTank() const;
+	//UFUNCTION(BlueprintCallable, Category = "Setup")
+	//ATank *GetControlledTank() const;
 
 protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
@@ -35,7 +34,7 @@ private:
 	bool GetLookDirection(FVector2D ScreenLocation, FVector &LookDirection) const;
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector &HitLocation) const;
 
-	ATank *MyControlledTank = nullptr;
+	//ATank *MyControlledTank = nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
 	float CrossHairXLocation = 0.5f;
