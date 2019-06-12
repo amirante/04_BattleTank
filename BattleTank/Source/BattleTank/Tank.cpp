@@ -33,7 +33,7 @@ void ATank::BeginPlay()
 
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!TankAimingComponent) { return; }
+	if (!ensure(TankAimingComponent)) { return; }
 
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);	// delegate aiming stuff to subobject
 }
@@ -44,9 +44,10 @@ void ATank::Fire(bool IsAITank)
 	bool isReloaded = FPlatformTime::Seconds() - LastFireTime > ReloadTimeInSeconds;
 
 	auto World = GetWorld();
-	if (!World) { return; }
+	if (!ensure(World)) { return; }
+	if (!ensure(Barrel)) { return; }
 
-	if ( Barrel && isReloaded ) {
+	if (isReloaded ) {
 		// Spawn a projectile at the socket location on the barrel
 		const UStaticMeshSocket *BarrelSocket = Barrel->GetSocketByName("Projectile");
 

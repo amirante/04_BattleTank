@@ -33,7 +33,9 @@ void ATankPlayerController::Tick(float DeltaTime)
 // Start the tank moving the barrel so that a shot would hit where the crosshair intersects the world
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!MyControlledTank) { return; }
+	if (!ensure(MyControlledTank)) { 
+		return; 
+	}
 
 	FVector HitLocation; // out parameter
 
