@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "Runtime/AIModule/Classes/AIController.h"
 #include "TankPlayerController.h"
+// Depends on movement component via pathfinding system
 
 void ATankAIController::BeginPlay()
 {
