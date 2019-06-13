@@ -31,31 +31,50 @@ void UTankAimingComponent::BeginPlay()
 	LastFireTime = FPlatformTime::Seconds();	// or use GetWorld()->GetTimeSeconds();
 }
 
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	if (!ensure(Barrel)) { return false; }
+
+	FVector BarrelForward = Barrel->GetForwardVector();
+
+	if (BarrelForward.Equals(AimDirection, 0.01)) {
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
 	auto Name = GetName();
 	//UE_LOG(LogTemp, Warning, TEXT("TankDonkey: In UTankAimingComponet::TickComponent [%s]"), *Name);
 
 	// TODO or use GetWorld()->GetTimeSeconds() instead of FPlatformTime::Seconds
-	if ( (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds) {
+	if ( (FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds) {
 		FiringState = EFiringStatus::Reloading;
 	}
-	// TODO Handle aiming and locked states
+	else if (IsBarrelMoving()) {
+		FiringState = EFiringStatus::Aiming;
+	}
+	else {
+		FiringState = EFiringStatus::Locked;
+	}
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	if (!ensure(Barrel)) { return; }
-
-	FVector OutLaunchVelocity(0);
+	
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
+	FVector OutLaunchVelocity(0);
 	
 	// Calculate OutLaunchVelocity
 	if (UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity,
 									StartLocation, HitLocation, LaunchSpeed, false,0,0,
 									ESuggestProjVelocityTraceOption::DoNotTrace)) {
-		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-		auto TankName = GetOwner()->GetName();
+		AimDirection = OutLaunchVelocity.GetSafeNormal();
+		//auto TankName = GetOwner()->GetName();
 		//UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *TankName, *AimDirection.ToString());
 		MoveBarrelTowards(AimDirection);
 	}
