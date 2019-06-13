@@ -28,6 +28,8 @@ void ATankPlayerController::Tick(float DeltaTime)
 // Start the tank moving the barrel so that a shot would hit where the crosshair intersects the world
 void ATankPlayerController::AimTowardsCrosshair()
 {
+	if (!GetPawn()) { return; }	// e.g. if we are not possessing a tank
+
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
 
