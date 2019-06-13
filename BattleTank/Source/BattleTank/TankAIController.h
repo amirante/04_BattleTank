@@ -4,12 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
-#include "GameFramework/Actor.h"
-#include "GameFramework/PlayerController.h"
 #include "TankAIController.generated.h"
 
-
-class ATank;
 
 /**
  * 
@@ -19,15 +15,15 @@ class BATTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 
-private:
-	void BeginPlay() override;
+public:
+
+protected:
+	ATankAIController();
+	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
-	//ATank *GetPlayerTank() const;
-	//ATank *GetControlledTank() const;
-	//ATank *Player0Tank = nullptr;	// TODO Change this to support multiplayer
-	//ATank *MyControlledTank = nullptr;
+private:
 
 	// How close can the AI tank get to the player
-	float AcceptanceRadius = 3000.0f;	// assume it is in centimeters
+	float AcceptanceRadius = 8000.0f;	// assume it is in centimeters
 };

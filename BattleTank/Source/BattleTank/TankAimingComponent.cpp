@@ -1,11 +1,12 @@
 // Copyright 2019, ALSN, LLC. All rights reserved
 
 #include "TankAimingComponent.h"
+#include "Projectile.h"
+#include "TankBarrel.h"
+#include "TankTurret.h"
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
 #include "Classes/Kismet/GameplayStatics.h"
-#include "TankBarrel.h"
-#include "TankTurret.h"
 
 
 // Sets default values for this component's properties
@@ -81,4 +82,29 @@ void UTankAimingComponent::InitialiseComponent(UTankBarrel * BarrelToSet, UTankT
 	Turret = TurretToSet;
 }
 
+void UTankAimingComponent::Fire(bool IsAITank)
+{
+	bool isReloaded = FPlatformTime::Seconds() - LastFireTime > ReloadTimeInSeconds;
+
+	auto World = GetWorld();
+	if (!ensure(World)) { return; }
+
+	if (!ensure(Barrel && ProjectileBlueprint)) { return; }
+
+	if (isReloaded) {
+		// Spawn a projectile at the socket location on the barrel
+		const UStaticMeshSocket *BarrelSocket = Barrel->GetSocketByName("Projectile");
+
+		// remove this if statement for final build. This is just for debugging to turn off AI tanks shooting
+		if (!IsAITank || CanAITanksFire) {
+			auto Projectile = World->SpawnActor<AProjectile>(ProjectileBlueprint,
+				Barrel->GetSocketLocation(FName("Projectile")),
+				Barrel->GetSocketRotation(FName("Projectile")));
+
+			Projectile->LaunchProjectile(LaunchSpeed);
+		}
+
+		LastFireTime = FPlatformTime::Seconds();	// or use GetWorld()->GetTimeSeconds();
+	}
+}
 
