@@ -14,12 +14,34 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = true;
 	auto Name = GetName();
 
 	UE_LOG(LogTemp, Warning, TEXT("TankDonkey: In UTankAimingComponet::UTankAimingComponent [%s]"), *Name);
 }
 
+void UTankAimingComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	auto Name = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("TankDonkey: In UTankAimingComponet::BeginPlay [%s]"), *Name);
+
+	// so that first fire is after initial reload
+	LastFireTime = FPlatformTime::Seconds();	// or use GetWorld()->GetTimeSeconds();
+}
+
+void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
+{
+	auto Name = GetName();
+	//UE_LOG(LogTemp, Warning, TEXT("TankDonkey: In UTankAimingComponet::TickComponent [%s]"), *Name);
+
+	// TODO or use GetWorld()->GetTimeSeconds() instead of FPlatformTime::Seconds
+	if ( (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds) {
+		FiringState = EFiringStatus::Reloading;
+	}
+	// TODO Handle aiming and locked states
+}
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
@@ -84,14 +106,13 @@ void UTankAimingComponent::InitialiseComponent(UTankBarrel * BarrelToSet, UTankT
 
 void UTankAimingComponent::Fire(bool IsAITank)
 {
-	bool isReloaded = FPlatformTime::Seconds() - LastFireTime > ReloadTimeInSeconds;
-
 	auto World = GetWorld();
 	if (!ensure(World)) { return; }
 
-	if (!ensure(Barrel && ProjectileBlueprint)) { return; }
+	if (FiringState != EFiringStatus::Reloading) {
+		if (!ensure(Barrel)) { return; }
+		if (!ensure(ProjectileBlueprint)) { return; }
 
-	if (isReloaded) {
 		// Spawn a projectile at the socket location on the barrel
 		const UStaticMeshSocket *BarrelSocket = Barrel->GetSocketByName("Projectile");
 

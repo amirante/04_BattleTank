@@ -22,8 +22,7 @@ void ATankAIController::BeginPlay()
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	UE_LOG(LogTemp, Warning, TEXT("TankDonkey: ATankAIController is Ticking..."));
-
+	
 	auto Player0Tank = GetWorld()->GetFirstPlayerController()->GetPawn();
 	auto MyControlledTank = GetPawn();
 	
