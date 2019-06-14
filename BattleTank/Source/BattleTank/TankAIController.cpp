@@ -4,9 +4,8 @@
 #include "TankAimingComponent.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
-#include "Runtime/AIModule/Classes/AIController.h"
-#include "TankPlayerController.h"
-// Depends on movement component via pathfinding system
+#include "Runtime/AIModule/Classes/AIController.h"	// Depends on movement component via pathfinding system
+
 
 ATankAIController::ATankAIController()
 {
