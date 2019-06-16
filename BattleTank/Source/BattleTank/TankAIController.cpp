@@ -36,6 +36,7 @@ void ATankAIController::Tick(float DeltaTime)
 
 	AimingComponent->AimAt(Player0Tank->GetActorLocation());
 
-	// Fire if ready
-	AimingComponent->Fire(true);	// TODO remove true param when not debugging
+	// Only if locked then fire
+	if (AimingComponent->GetFiringState() == EFiringStatus::Locked)
+		AimingComponent->Fire(true);	// TODO remove true param when not debugging
 }

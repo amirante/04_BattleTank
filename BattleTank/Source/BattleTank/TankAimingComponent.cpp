@@ -147,3 +147,8 @@ void UTankAimingComponent::Fire(bool IsAITank)
 	}
 }
 
+EFiringStatus UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
+}
+

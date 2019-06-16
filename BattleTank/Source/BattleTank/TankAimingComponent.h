@@ -34,6 +34,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Fire(bool IsAITank = false);
+	EFiringStatus GetFiringState() const;
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
