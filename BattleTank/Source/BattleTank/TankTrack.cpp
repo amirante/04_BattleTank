@@ -17,8 +17,8 @@ void UTankTrack::BeginPlay()
 void UTankTrack::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, 
 						FVector NormalImpulse, const FHitResult & Hit)
 {
-	auto Name = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("TankDonkey: In UTankTrack::OnHit [%s]"), *Name);
+	/*auto Name = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("TankDonkey: In UTankTrack::OnHit [%s]"), *Name);*/
 
 	DriveTrack();
 	ApplySidewaysForce();

@@ -9,7 +9,6 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//MyControlledTank = GetPawn();
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) {	return; }
 	
@@ -37,9 +36,10 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 	// Get world location of linetrace through crosshair
 	// If it hits landscape, tell controlled tank to aim at this point
-	if (GetSightRayHitLocation(HitLocation)) {
+	bool bGotHitLocation = GetSightRayHitLocation(HitLocation);
+
+	if (bGotHitLocation) {
 		//UE_LOG(LogTemp, Warning, TEXT("Hit location: %s"), *HitLocation.ToString());
-		//MyControlledTank->AimAt(HitLocation);
 		AimingComponent->AimAt(HitLocation);
 	}
 	else {
@@ -61,10 +61,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &OutHitLocation) cons
 
 	if (GetLookDirection(ScreenLocation, LookDirection)) {
 		// Line-trace along that look direction and see what we hit (up to max range)
-		if (GetLookVectorHitLocation(LookDirection, OutHitLocation)) {
-			// do something here?
-			return true;
-		}
+		return (GetLookVectorHitLocation(LookDirection, OutHitLocation));
 	}
 	return false;
 }
@@ -95,18 +92,5 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector &
 	return DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, WorldLocationDummy, LookDirection);
 }
 
-//ATank *ATankPlayerController::GetControlledTank() const
-//{
-//	APawn *OurTank = nullptr;
-//	OurTank = GetPawn();
-//
-//	if (OurTank != nullptr) {
-//		UE_LOG(LogTemp, Warning, TEXT("GetControlledTank found a player controlled tank: %s"), *OurTank->GetName());
-//	}
-//	else {
-//		UE_LOG(LogTemp, Warning, TEXT("GetControlledTank didn't find a tank!"));
-//	}
-//
-//	return OurTank;
-//}
+
 
