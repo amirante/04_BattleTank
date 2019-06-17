@@ -50,13 +50,17 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	auto Name = GetName();
 	//UE_LOG(LogTemp, Warning, TEXT("TankDonkey: In UTankAimingComponet::TickComponent [%s]"), *Name);
 
+	if (CurrentAmmo <= 0) {
+		FiringState = EFiringStatus::OutOfAmmo;
+	}
 	// TODO or use GetWorld()->GetTimeSeconds() instead of FPlatformTime::Seconds
-	if ( (FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds) {
+	else if ( (FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds) {
 		FiringState = EFiringStatus::Reloading;
 	}
 	else if (IsBarrelMoving()) {
 		FiringState = EFiringStatus::Aiming;
 	}
+
 	else {
 		FiringState = EFiringStatus::Locked;
 	}
@@ -127,7 +131,7 @@ void UTankAimingComponent::Fire(bool IsAITank)
 	auto World = GetWorld();
 	if (!ensure(World)) { return; }
 
-	if (FiringState != EFiringStatus::Reloading) {
+	if (FiringState == EFiringStatus::Locked || FiringState == EFiringStatus::Aiming) {
 		if (!ensure(Barrel)) { return; }
 		if (!ensure(ProjectileBlueprint)) { return; }
 
@@ -141,6 +145,7 @@ void UTankAimingComponent::Fire(bool IsAITank)
 				Barrel->GetSocketRotation(FName("Projectile")));
 
 			Projectile->LaunchProjectile(LaunchSpeed);
+			CurrentAmmo--;
 		}
 
 		LastFireTime = FPlatformTime::Seconds();	// or use GetWorld()->GetTimeSeconds();
@@ -150,5 +155,10 @@ void UTankAimingComponent::Fire(bool IsAITank)
 EFiringStatus UTankAimingComponent::GetFiringState() const
 {
 	return FiringState;
+}
+
+int UTankAimingComponent::GetRoundsLeft() const
+{
+	return CurrentAmmo;
 }
 
