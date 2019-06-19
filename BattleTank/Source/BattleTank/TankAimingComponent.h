@@ -40,7 +40,7 @@ public:
 	EFiringStatus GetFiringState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
-	int GetRoundsLeft() const;
+	int32 GetRoundsLeft() const;
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
@@ -72,7 +72,7 @@ private:
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	int CurrentAmmo = 10;
+	int32 CurrentAmmo = 10;
 
 	double LastFireTime = 0;
 };
