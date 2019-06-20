@@ -14,7 +14,7 @@ AProjectile::AProjectile()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Collision Mesh"));
+	CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("CollisionMesh"));
 	SetRootComponent(CollisionMesh);
 	CollisionMesh->SetNotifyRigidBodyCollision(true);
 	CollisionMesh->SetVisibility(false);
@@ -23,8 +23,17 @@ AProjectile::AProjectile()
 	//LaunchBlast->AttachTo(RootComponent);
 	LaunchBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 
-	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile Movement"));
+	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("ProjectileMovement"));
 	ProjectileMovement->bAutoActivate = false;
+
+	// Following added from FPSProject
+	ProjectileMovement->SetUpdatedComponent(CollisionMesh);
+	ProjectileMovement->InitialSpeed = 3000.0f;
+	ProjectileMovement->MaxSpeed = 3000.0f;
+	ProjectileMovement->bRotationFollowsVelocity = true;
+	ProjectileMovement->bShouldBounce = true;
+	ProjectileMovement->Bounciness = 0.3f;
+	InitialLifeSpan = 3.0f;
 }
 
 // Called when the game starts or when spawned
