@@ -62,7 +62,7 @@ private:
 	float LaunchSpeed = 10000;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float ReloadTimeInSeconds = 0.1f;
+	float ReloadTimeInSeconds = 3.0f;
 
 	// Temporary flag to turn off AI Tank firing for debugging purposes
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
@@ -72,7 +72,7 @@ private:
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	int32 CurrentAmmo = 20;
+	int32 CurrentAmmo = 10;
 
 	double LastFireTime = 0;
 };

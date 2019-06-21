@@ -6,13 +6,13 @@
 #include "GameFramework/Actor.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Classes/Particles/ParticleSystemComponent.h"
-#include "Components/StaticMeshComponent.h"
+#include "Engine/Classes/Components/StaticMeshComponent.h"
 
 // Sets default values
 AProjectile::AProjectile()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 
 	CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("CollisionMesh"));
 	SetRootComponent(CollisionMesh);
@@ -30,30 +30,16 @@ AProjectile::AProjectile()
 	ProjectileMovement->InitialSpeed = 10000.0f;
 	ProjectileMovement->MaxSpeed = 10000.0f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
-	InitialLifeSpan = 4.0f;
-
-	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("ImpactBlast"));
-	ImpactBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-	ImpactBlast->bAutoActivate = false;
+	//ProjectileMovement->bShouldBounce = true;
+	//ProjectileMovement->Bounciness = 0.3f;
+	InitialLifeSpan = 3.0f;
 }
 
 // Called when the game starts or when spawned
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	CollisionMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
-}
-
-
-void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent,
-	FVector NormalImpulse, const FHitResult & Hit)
-{
-	auto Name = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("TankDonkey: In AProjectile::OnHit [%s]"), *Name);
 	
-	LaunchBlast->Deactivate();
-	ImpactBlast->Activate(true);
-	CollisionMesh->SetVisibility(false);
 }
 
 void AProjectile::LaunchProjectile( float Speed)
@@ -62,6 +48,13 @@ void AProjectile::LaunchProjectile( float Speed)
 
 	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
 	ProjectileMovement->Activate();
+}
+
+// Called every frame
+void AProjectile::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
 }
 
 

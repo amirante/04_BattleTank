@@ -7,7 +7,6 @@
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
 #include "Classes/Kismet/GameplayStatics.h"
-#include "UObject/ConstructorHelpers.h"
 
 
 // Sets default values for this component's properties
@@ -19,13 +18,6 @@ UTankAimingComponent::UTankAimingComponent()
 	auto Name = GetName();
 
 	UE_LOG(LogTemp, Warning, TEXT("TankDonkey: In UTankAimingComponet::UTankAimingComponent [%s]"), *Name);
-
-	// Hack to fix bug of disappearing Projectile BP all the time
-	static ConstructorHelpers::FClassFinder<AProjectile> Proj(TEXT("/Game/Projectile/Projectile2_BP"));
-	if (Proj.Class)
-	{
-		ProjectileBlueprint = Proj.Class;
-	}
 }
 
 void UTankAimingComponent::BeginPlay()
