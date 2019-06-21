@@ -20,7 +20,6 @@ AProjectile::AProjectile()
 	CollisionMesh->SetVisibility(false);
 
 	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("LaunchBlast"));
-	//LaunchBlast->AttachTo(RootComponent);
 	LaunchBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("ProjectileMovement"));
@@ -28,11 +27,11 @@ AProjectile::AProjectile()
 
 	// Following added from FPSProject
 	ProjectileMovement->SetUpdatedComponent(CollisionMesh);
-	ProjectileMovement->InitialSpeed = 3000.0f;
-	ProjectileMovement->MaxSpeed = 3000.0f;
+	ProjectileMovement->InitialSpeed = 10000.0f;
+	ProjectileMovement->MaxSpeed = 10000.0f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
-	ProjectileMovement->bShouldBounce = true;
-	ProjectileMovement->Bounciness = 0.3f;
+	//ProjectileMovement->bShouldBounce = true;
+	//ProjectileMovement->Bounciness = 0.3f;
 	InitialLifeSpan = 3.0f;
 }
 

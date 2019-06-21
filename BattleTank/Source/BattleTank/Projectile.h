@@ -29,8 +29,11 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UParticleSystemComponent *LaunchBlast = nullptr;
-	
-private:
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UProjectileMovementComponent *ProjectileMovement = nullptr;
+
+private:
+
 
 };
