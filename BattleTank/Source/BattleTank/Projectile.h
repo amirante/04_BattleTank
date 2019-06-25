@@ -4,9 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Engine/Public/TimerManager.h"
 #include "Projectile.generated.h"
 
 class UProjectileMovementComponent;
+class URadialForceComponent;
 
 UCLASS()
 class BATTLETANK_API AProjectile : public AActor
@@ -34,9 +36,17 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UProjectileMovementComponent *ProjectileMovement = nullptr;
-	
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	URadialForceComponent *ExplosionForce = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Components")
+	float DestroyDelay = 10.0f;
+
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent *HitComponent, AActor *OtherActor, UPrimitiveComponent *OtherComponent,
 									FVector NormalImpulse, const FHitResult &Hit);
+	void OnTimerExpire();
 
+	FTimerHandle THandle;
 };

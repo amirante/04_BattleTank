@@ -3,9 +3,10 @@
 
 #include "Projectile.h"
 #include "Classes/Engine/World.h"
-#include "GameFramework/Actor.h"
+#include "Engine/Classes/GameFramework/Actor.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Classes/Particles/ParticleSystemComponent.h"
+#include "Classes/PhysicsEngine/RadialForceComponent.h"
 #include "Components/StaticMeshComponent.h"
 
 // Sets default values
@@ -30,11 +31,14 @@ AProjectile::AProjectile()
 	ProjectileMovement->InitialSpeed = 10000.0f;
 	ProjectileMovement->MaxSpeed = 10000.0f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
-	InitialLifeSpan = 4.0f;
+	//InitialLifeSpan = 4.0f;
 
 	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("ImpactBlast"));
 	ImpactBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	ImpactBlast->bAutoActivate = false;
+
+	ExplosionForce = CreateDefaultSubobject<URadialForceComponent>(FName("Explosion Force"));
+	ExplosionForce->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 // Called when the game starts or when spawned
@@ -53,7 +57,21 @@ void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor,
 	
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate(true);
-	CollisionMesh->SetVisibility(false);
+	ExplosionForce->FireImpulse();
+	//CollisionMesh->SetVisibility(false);
+	SetRootComponent(ImpactBlast);
+	CollisionMesh->DestroyComponent();
+
+	UWorld* World = GetWorld();
+	World->GetTimerManager().SetTimer(THandle, this, &AProjectile::OnTimerExpire, DestroyDelay, false);
+
+}
+
+void AProjectile::OnTimerExpire()
+{
+	auto Name = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("TankDonkey: In AProjectile::OnTimerExpire [%s]"), *Name);
+	Destroy();
 }
 
 void AProjectile::LaunchProjectile( float Speed)
