@@ -7,6 +7,8 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Classes/Particles/ParticleSystemComponent.h"
 #include "Classes/PhysicsEngine/RadialForceComponent.h"
+#include "Classes/Kismet/GameplayStatics.h"
+#include "Classes/GameFramework/DamageType.h"
 #include "Components/StaticMeshComponent.h"
 
 // Sets default values
@@ -58,9 +60,16 @@ void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor,
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate(true);
 	ExplosionForce->FireImpulse();
-	//CollisionMesh->SetVisibility(false);
+	
 	SetRootComponent(ImpactBlast);
 	CollisionMesh->DestroyComponent();
+
+	// From the comments, not sure we need this
+	/*TArray<AActor*> Ignore;
+	Ignore.Add(this);*/
+
+	UGameplayStatics::ApplyRadialDamage(this, ProjectileDamage, GetActorLocation(), ExplosionForce->Radius,
+										UDamageType::StaticClass(), TArray<AActor*>());		// damage all actors
 
 	UWorld* World = GetWorld();
 	World->GetTimerManager().SetTimer(THandle, this, &AProjectile::OnTimerExpire, DestroyDelay, false);

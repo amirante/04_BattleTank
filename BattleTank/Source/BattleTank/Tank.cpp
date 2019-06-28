@@ -17,3 +17,22 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 }
+
+float ATank::TakeDamage(float DamageAmount, FDamageEvent const &DamageEvent, AController *EventInstigator, AActor *DamageCauser)
+{
+	// Call the base class - this will tell us how much damage to apply  
+	const float ActualDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	
+	int32 DamagePoints = FPlatformMath::RoundToInt(ActualDamage);
+	int32 DamageToApply = FMath::Clamp(DamagePoints, 0, CurrentHealth);
+
+	UE_LOG(LogTemp, Warning, TEXT("TankDonkey: In ATank::TakeDamage DamageAmount [%f] DamageToApply [%i]"), 
+		DamageAmount, DamageToApply);
+	
+	CurrentHealth -= DamageToApply;
+	if (CurrentHealth <= 0) {
+		UE_LOG(LogTemp, Warning, TEXT("TankDonkey: In ATank::TakeDamage: Tank Died!"));
+	}
+
+	return DamageToApply;
+}
