@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "Tank.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -20,6 +21,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Health")
 	float GetHealthPercent() const;	// Return current health as a percentage between 0 and 1
+	
+
+	FTankDelegate OnDeath;
 
 private:
 	ATank();
