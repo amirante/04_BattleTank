@@ -16,6 +16,7 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
+	CurrentHealth = StartingHealth;
 }
 
 float ATank::TakeDamage(float DamageAmount, FDamageEvent const &DamageEvent, AController *EventInstigator, AActor *DamageCauser)
@@ -30,6 +31,7 @@ float ATank::TakeDamage(float DamageAmount, FDamageEvent const &DamageEvent, ACo
 		DamageAmount, DamageToApply);
 	
 	CurrentHealth -= DamageToApply;
+
 	if (CurrentHealth <= 0) {
 		UE_LOG(LogTemp, Warning, TEXT("TankDonkey: In ATank::TakeDamage: Tank Died!"));
 		OnDeath.Broadcast();

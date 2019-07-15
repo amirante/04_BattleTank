@@ -78,8 +78,8 @@ void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor,
 
 void AProjectile::OnTimerExpire()
 {
-	auto Name = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("TankDonkey: In AProjectile::OnTimerExpire [%s]"), *Name);
+	/*auto Name = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("TankDonkey: In AProjectile::OnTimerExpire [%s]"), *Name);*/
 	Destroy();
 }
 
