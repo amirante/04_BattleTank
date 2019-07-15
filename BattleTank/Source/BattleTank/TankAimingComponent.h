@@ -49,7 +49,7 @@ protected:
 private:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
-	void MoveBarrelTowards(FVector AimDirection);
+	void MoveBarrelTowards(FVector NewAimDirection);
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 	virtual void BeginPlay() override;
 	bool IsBarrelMoving();
