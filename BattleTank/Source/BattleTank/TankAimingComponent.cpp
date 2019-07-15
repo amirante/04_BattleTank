@@ -147,7 +147,7 @@ void UTankAimingComponent::Fire(bool IsAITank)
 		const UStaticMeshSocket *BarrelSocket = Barrel->GetSocketByName("Projectile");
 
 		// remove this if statement for final build. This is just for debugging to turn off AI tanks shooting
-		if (!IsAITank || CanAITanksFire) {
+		if (!IsAITank || bCanAITanksFire) {
 			auto Projectile = World->SpawnActor<AProjectile>(ProjectileBlueprint,
 				Barrel->GetSocketLocation(FName("Projectile")),
 				Barrel->GetSocketRotation(FName("Projectile")));

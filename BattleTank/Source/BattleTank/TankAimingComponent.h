@@ -66,7 +66,7 @@ private:
 
 	// Temporary flag to turn off AI Tank firing for debugging purposes
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	bool CanAITanksFire = false;
+	bool bCanAITanksFire = false;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
