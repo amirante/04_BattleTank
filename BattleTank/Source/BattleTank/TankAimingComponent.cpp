@@ -33,7 +33,7 @@ void UTankAimingComponent::BeginPlay()
 	Super::BeginPlay();
 
 	auto Name = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("TankDonkey: In UTankAimingComponet::BeginPlay [%s]"), *Name);
+	UE_LOG(LogTemp, Warning, TEXT("TankDonkey: In UTankAimingComponent::BeginPlay [%s]"), *Name);
 
 	// so that first fire is after initial reload
 	LastFireTime = FPlatformTime::Seconds();	// or use GetWorld()->GetTimeSeconds();
