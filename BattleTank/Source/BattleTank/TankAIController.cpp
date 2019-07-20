@@ -45,7 +45,7 @@ void ATankAIController::Tick(float DeltaTime)
 	auto Player0Tank = GetWorld()->GetFirstPlayerController()->GetPawn();
 	auto MyControlledTank = GetPawn();
 	
-	if (!ensure(MyControlledTank && Player0Tank)) { return; }	// TODO If one tank is dead this fails
+	if (!(MyControlledTank && Player0Tank)) { return; }	// TODO If one tank is dead this fails
 
 	// Move towards the player
 	MoveToActor(Player0Tank, AcceptanceRadius);	// TODO check radius is in cm
