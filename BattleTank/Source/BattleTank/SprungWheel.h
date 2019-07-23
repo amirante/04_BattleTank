@@ -8,7 +8,7 @@
 
 class UPhysicsConstraintComponent;
 
-UCLASS()
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BATTLETANK_API ASprungWheel : public AActor
 {
 	GENERATED_BODY()

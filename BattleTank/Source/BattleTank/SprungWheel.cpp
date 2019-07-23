@@ -12,33 +12,26 @@ ASprungWheel::ASprungWheel()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	
+	MassWheelConstraint = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("MassWheelConstraint"));
+	SetRootComponent(MassWheelConstraint); 
+
 	Mass = CreateDefaultSubobject<UStaticMeshComponent>(FName("Mass"));
-	SetRootComponent(Mass);
+	Mass->SetupAttachment(MassWheelConstraint);
 
 	Wheel = CreateDefaultSubobject<UStaticMeshComponent>(FName("Wheel"));
-	Wheel->SetupAttachment(Mass);
-
-	MassWheelConstraint = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("MassWheelConstraint"));
-	MassWheelConstraint->SetupAttachment(Mass);
-
-	/*MassWheelConstraint->ConstraintInstance = ConstraintInstance;
-	MassWheelConstraint->ConstraintInstance.bLinearLimitSoft_DEPRECATED = 1;
-
-	MassWheelConstraint->SetConstrainedComponents(Mass, "Mass", Wheel, "Wheel");
-	MassWheelConstraint->SetAngularSwing1Limit(EAngularConstraintMotion::ACM_Locked, 0.0);
-	MassWheelConstraint->SetAngularSwing2Limit(EAngularConstraintMotion::ACM_Locked, 0.0);
-	MassWheelConstraint->SetAngularTwistLimit(EAngularConstraintMotion::ACM_Locked, 0.0);
-	MassWheelConstraint->SetLinearXLimit(ELinearConstraintMotion::LCM_Locked, 0.0);
-	MassWheelConstraint->SetLinearYLimit(ELinearConstraintMotion::LCM_Locked, 0.0);
-	MassWheelConstraint->SetLinearZLimit(ELinearConstraintMotion::LCM_Limited, 100.0);*/
-
+	Wheel->SetupAttachment(MassWheelConstraint);
 }
 
 // Called when the game starts or when spawned
 void ASprungWheel::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	if (GetAttachParentActor()) {
+		UE_LOG(LogTemp, Warning, TEXT("ASprungWheel: Not Null"));
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("ASprungWheel: Null"));
+	}
 }
 
 // Called every frame
